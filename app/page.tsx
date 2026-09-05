@@ -16,8 +16,7 @@ import SpecBlock from "@/components/SpecBlock";
 import { JsonLd, serviceJsonLd } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title:
-    "Equipment procurement across eight verticals, one purchase order · Proserv",
+  title: "Proserv India - A Procurement as a Service company for CRE",
   description:
     "Proserv is a Procurement as a Service company in Gurugram supplying building materials, electrical, HVAC, refrigeration, IT hardware, material handling, white goods and renewable energy equipment across India. ISO 9001:2015 certified. Quotation within 24 hours.",
   alternates: { canonical: "/" },
