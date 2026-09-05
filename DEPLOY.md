@@ -14,6 +14,33 @@ order is not arbitrary.
 
 ---
 
+## 0. What `proservindia.in` looks like today
+
+Observed from public DNS, 5 September 2026. Re-check before you change anything
+— this is a snapshot, not a guarantee.
+
+| | |
+| --- | --- |
+| **DNS host** | **GoDaddy** — nameservers `ns13.domaincontrol.com` / `ns14.domaincontrol.com`. All record changes below happen in the GoDaddy DNS panel: *My Products → Domains → proservindia.in → DNS*. |
+| **Apex `A`** | `3.33.130.190`, `15.197.148.33` — GoDaddy's parking/forwarding addresses. Nothing is really hosted there. These are what step 5 replaces. |
+| **`www`** | `CNAME` → `proservindia.in`. |
+| **Mail** | **Microsoft 365** — MX `proservindia-in.mail.protection.outlook.com`. |
+| **Root SPF** | `v=spf1 include:spf.protection.outlook.com include:sender.zoho-books.in include:spf-eu.emailsignatures365.com -all` — Microsoft 365, Zoho Books and Exclaimer. Uses 4 of the 10 permitted DNS lookups, so there is headroom. |
+| **DMARC** | None published. |
+
+Three consequences worth reading before you touch anything:
+
+1. **Do not add Resend to the root SPF record.** Resend authenticates against
+   `send.proservindia.in`, which is a separate record. Editing the root SPF
+   risks your Microsoft 365, Zoho Books and Exclaimer mail for no benefit.
+2. **Do not delete or edit the MX record** during the domain cutover. It carries
+   all mail to `Sales@` and `Ajaypal@`. Only the apex `A` records and the `www`
+   `CNAME` change.
+3. **`privacy@proservindia.in` is a Microsoft 365 job**, not a DNS one. In the
+   M365 admin centre it can be a **shared mailbox** — no licence, no extra cost —
+   or an alias on an existing mailbox. Shared is better: more than one person can
+   watch it, and it survives someone leaving.
+
 ## 1. Push to GitHub
 
 The repository is already initialised with one commit. It needs a remote.
@@ -82,11 +109,11 @@ saying the enquiry was not delivered.
    - an **MX** record on `send.proservindia.in` — the return path
    - a **TXT** (SPF) record on `send.proservindia.in`
    - a **TXT** (DKIM) record on `resend._domainkey.proservindia.in`
-4. **Add them wherever `proservindia.in` DNS lives.** Note that these sit on
-   `send.` and `resend._domainkey.` subdomains, not on the root — so your
-   existing mailboxes on `proservindia.in` should be unaffected. Check the
-   dashboard's values against your current records before pasting anything, and
-   in particular do not replace an existing root SPF record.
+4. **Add them in the GoDaddy DNS panel.** They sit on `send.` and
+   `resend._domainkey.` subdomains, not on the root, so your Microsoft 365 mail
+   is unaffected. **Add records; do not edit the existing root SPF or the MX.**
+   Adding Resend to the root SPF is the classic mistake here and it buys you
+   nothing — Resend authenticates against `send.proservindia.in`.
 5. **Verify.** Usually minutes; allow up to an hour.
 6. **API Keys → Create.** Sending permission only — the site never reads.
 7. Put the key in `RESEND_API_KEY` (step 3) and redeploy.
@@ -97,18 +124,30 @@ saying the enquiry was not delivered.
 **Do not launch on `onboarding@resend.dev`.** It works for testing but is
 rate-limited and lands in spam, which is precisely backwards for this site.
 
-Once verified, consider adding a **DMARC** record if `proservindia.in` does not
-have one. It is not required to send, but it protects the domain from spoofing
-and improves the odds a first-contact email reaches a procurement inbox rather
-than its junk folder.
+**Add a DMARC record once Resend verifies.** `proservindia.in` has none today,
+which is a gap worth closing regardless of this site — your root SPF already ends
+in `-all`, so you are half way there. Start in monitor mode, which changes
+nothing about delivery and only collects reports:
+
+```
+Type   TXT
+Name   _dmarc
+Value  v=DMARC1; p=none; rua=mailto:dmarc@proservindia.in
+```
+
+Read the reports for a few weeks to confirm nothing legitimate is failing, then
+tighten `p=none` to `p=quarantine`. It protects the domain from being spoofed and
+improves the odds a first-contact email reaches a procurement inbox rather than
+its junk folder — which matters more for you than for most senders, because a
+cold quotation to a buyer who has never heard of you is exactly the mail that
+gets filtered.
 
 ## 5. Point the domain
 
 Only after step 4 passes.
 
-`proservindia.in` currently resolves to registrar-parking addresses, so
-something is holding the record — find it at the registrar before changing
-anything, and note what it is in case you need to put it back.
+The apex currently points at GoDaddy's parking addresses (see step 0). Note the
+existing values before you overwrite them, in case you need to put them back.
 
 1. Vercel → **Settings** → **Domains** → **Add** → `proservindia.in`. Vercel
    will prompt you to add `www.proservindia.in` as well. Do.
@@ -117,26 +156,37 @@ anything, and note what it is in case you need to put it back.
    **project-specific** — something like `d1d4fc829fe7bc7c.vercel-dns-017.com`,
    not the generic `cname.vercel-dns.com` you will find in older guides. Copy
    what your dashboard shows.
-3. At the registrar: replace the parking A record on the apex with Vercel's,
-   and add the `www` CNAME. Leave every **MX** record alone — those carry your
-   email, and deleting them stops mail to `Sales@` and `Ajaypal@` immediately.
+3. In the GoDaddy DNS panel:
+   - **Replace** the two apex `A` records (`3.33.130.190`, `15.197.148.33`) with
+     Vercel's single `A` value.
+   - **Repoint** the `www` `CNAME` from `proservindia.in` to Vercel's
+     project-specific target.
+   - **Change nothing else.** In particular leave the `MX` record and the root
+     `TXT` SPF record exactly as they are. Deleting the MX stops mail to
+     `Sales@` and `Ajaypal@` the moment it propagates.
+   - If GoDaddy has domain **forwarding** switched on for this domain, turn it
+     off. Forwarding overrides the A record and will keep the site unreachable
+     no matter how correct your DNS looks.
 4. Wait for propagation. Usually minutes, occasionally hours. Vercel's domain
    card turns green and issues the TLS certificate on its own.
 5. In **Domains**, set the redirect so one of the two is canonical — apex to
    `www` or the reverse. Either is fine; having both serve the same content
-   without a redirect is not.
+   without a redirect is not. Whichever you pick must match
+   `NEXT_PUBLIC_SITE_URL` from step 3, or the canonical tags and the sitemap
+   will disagree with the address people actually land on.
 
-**The nameserver alternative.** Vercel also offers taking over the domain's
-nameservers entirely. Do not do that here. It would move MX, and therefore
-company email, into Vercel's DNS, which is a much larger change than this site
-needs.
+**Do not use the Vercel nameserver option.** Vercel offers taking over the
+domain's nameservers entirely. That would move your `MX`, SPF and every other
+record out of GoDaddy and into Vercel's DNS — a much larger and riskier change
+than this site needs, and it puts your company email in the hands of your web
+host.
 
 ## 6. Before you call it live
 
 - [ ] Enquiry form sends; both emails arrive; reply-to on the desk email goes to
       the buyer
-- [ ] `privacy@proservindia.in` exists and someone reads it — the address is
-      published on `/privacy`
+- [ ] `privacy@proservindia.in` exists as a Microsoft 365 shared mailbox and
+      someone reads it — the address is published on `/privacy`
 - [ ] `/privacy` read by whoever handles your contracts (see `NOTES.md` item 3)
 - [x] The document list on `/what-you-receive` matches what Proserv actually
       issues — confirmed 5 September 2026 (`NOTES.md` item 5)
@@ -146,6 +196,8 @@ needs.
       origin
 - [ ] `https://proservindia.in/robots.txt` points at that sitemap
 - [ ] Someone other than you sends a test enquiry from a phone
+- [ ] MX record unchanged — send yourself a mail at `Sales@proservindia.in`
+      after the cutover and confirm it arrives
 
 ## 7. After launch
 
