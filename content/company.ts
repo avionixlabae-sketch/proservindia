@@ -101,6 +101,66 @@ export const complianceStrip = [
   "IEC AAMCP9745Q",
 ];
 
+/**
+ * Where the company came from — the /about origin section.
+ *
+ * Not in the 2026 profile. Written from the founder's own account of why a
+ * property services company moved into sourcing and supply, and it does real
+ * work on this site: the legal name, the logo tagline and the CIN's activity
+ * class all say property, while everything else says equipment. Without this
+ * section a buyer verifying the company finds an unexplained gap. With it, the
+ * property services origin becomes the reason the procurement business exists.
+ */
+export const origin = {
+  kicker: "Where we started",
+  title: "Property services came first. Procurement is what it turned into.",
+  body: [
+    "Proserv began as a property services company, and the name is not a leftover. Working with commercial real estate clients made one thing clear: managing a building is the smaller problem. The harder one is buying everything that goes into it, and everything that keeps it running afterwards.",
+    "A single commercial fit-out can run separate vendor relationships for structural and finishing materials, HVAC plant, electrical and backup power, refrigeration, IT hardware, appliances and material handling. Each with its own onboarding, its own inspection standard, its own point of contact. The building is one project. The procurement is eight.",
+    "So we extended into sourcing and supply, to cover the complete aspect of commercial real estate services rather than a part of it. One vendor agreement now covers both sides of a client's spend — what goes in at fit-out, and what the site keeps buying for as long as it runs.",
+  ],
+  closing:
+    "The property services name is not history. It is the reason the procurement business exists.",
+} as const;
+
+/**
+ * CAPEX and OPEX, as a buyer's budget is actually structured.
+ *
+ * The rest of the site organises by product vertical, which is how we source.
+ * This is how the client's spend is approved — two different budget lines, two
+ * different approval paths, usually two different people. Both examples lists
+ * are drawn from the standing categories in verticals.ts; nothing new is
+ * claimed here.
+ */
+export const spendTypes = [
+  {
+    label: "CAPEX",
+    title: "What goes in",
+    body: "Specified against a bill of quantities and delivered to the build programme, from foundation to handover.",
+    examples: [
+      "Structure, envelope and finishing materials",
+      "HVAC plant, chillers and refrigeration systems",
+      "Electrical infrastructure, transformers and backup power",
+      "Material handling fleet and storage systems",
+      "IT hardware at build-out",
+      "Solar generation and balance of system",
+    ],
+  },
+  {
+    label: "OPEX",
+    title: "What keeps it running",
+    body: "Ordered against the same vendor agreement once the site is live, without a second onboarding.",
+    examples: [
+      "Replacements, spares and consumable parts",
+      "Appliance and endpoint refresh cycles",
+      "Cables, conduit and site supply",
+      "Safety equipment, PPE and signage",
+      "Hand and power tools",
+      "Additional capacity as the site expands",
+    ],
+  },
+] as const;
+
 /** The profile's "one vendor, not seven" argument. Three columns on Home. */
 export const argument = [
   {

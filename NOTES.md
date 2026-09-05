@@ -200,20 +200,41 @@ fewer build-time dependency.
 
 ## Carried over from the handoff, still open
 
-### 10. The logo says "REAL ESTATE · SIMPLIFIED"
+### 10. The logo says "REAL ESTATE · SIMPLIFIED" — now explained, not contradicted
 
-**Decision taken: ship the logo exactly as supplied.** Recorded here because the
-consequence is visible on every page.
+**Decision taken: ship the logo exactly as supplied.**
 
-In the header, "REAL ESTATE · SIMPLIFIED" sits directly above "Eight equipment
-verticals. One purchase order." A buyer verifying the company also finds a legal
-name of *Property Services* and an incorporation class that was, at least
-originally, real estate (see item 1). The first screen and the registry both say
-property; the copy says equipment.
+This was originally logged as a contradiction: "REAL ESTATE · SIMPLIFIED" in the
+header, directly above "Eight equipment verticals. One purchase order.", with a
+legal name of *Property Services* and a real-estate NIC class on the CIN. That
+reading was wrong, and the correction matters.
 
-The site does not address the gap anywhere — no line on `/about` explains the
-move from property services into equipment trading. If the tagline stays, that
-line is the cheapest fix available and turns a contradiction into a history.
+Proserv did not pivot away from property services. It extended into procurement
+**to cover the complete aspect of commercial real estate services** — a fit-out
+runs eight vendor relationships for one building, so the client gets one instead,
+covering both the CAPEX that goes in at handover and the OPEX that follows for as
+long as the site runs.
+
+Read that way nothing on the site is in tension. The name is the origin, the
+tagline is the through-line, and the CIN's activity class is consistent rather
+than stale. What was missing was only that no page said so.
+
+**Fixed**: `/about` now opens with a *Where we started* section
+(`content/company.ts` → `origin`) followed by a CAPEX / OPEX block (→
+`spendTypes`) showing both sides of a client's spend under one agreement. The
+spend examples are drawn from the standing categories in `verticals.ts` —
+nothing new is claimed.
+
+Two things worth considering, neither blocking:
+
+- **The CAPEX / OPEX frame may deserve more than one page.** Everything else on
+  the site is organised by product vertical, which is how Proserv sources. CAPEX
+  and OPEX is how the buyer's budget is approved — different budget line,
+  different approval path, often a different person. A facilities head thinking
+  "what can I put on OPEX this quarter" currently has no entry point.
+- **Home does not carry the origin at all.** Deliberate, to keep the hero to one
+  argument. If buyers keep asking why a property company sells equipment, a
+  single line on Home is the cheapest answer.
 
 Still needed regardless: an **SVG** of the mark, and a **reversed/knockout**
 version for the purple banner and any dark surface. The build uses the supplied
