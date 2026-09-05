@@ -1,0 +1,502 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Modernist — design tokens.
+
+   Ported from design_handoff_proserv_website/design-system/styles.css, with the
+   accent retuned to the Proserv brand palette sampled from the logo:
+   green #009800 (wordmark), purple #580098 (bar motif).
+
+   THIS FILE IS THE ONLY PLACE A BRAND COLOUR IS DECLARED. Components reference
+   var(--color-*) or the Tailwind utilities generated from @theme below. Never
+   hard-code a hex in a component.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --color-bg: #f3f2f2;
+  --color-surface: #eae9e9;
+  --color-text: #201e1d;
+  --color-divider: color-mix(in srgb, #201e1d 40%, transparent);
+
+  /* Neutral ramp — OKLCH-generated on one shared lightness scale. */
+  --color-neutral-100: #f8f4f4;
+  --color-neutral-200: #eae7e7;
+  --color-neutral-300: #d7d3d3;
+  --color-neutral-400: #bab6b6;
+  --color-neutral-500: #9b9797;
+  --color-neutral-600: #7d7979;
+  --color-neutral-700: #605d5d;
+  --color-neutral-800: #444141;
+  --color-neutral-900: #2d2b2b;
+
+  /* Accent ramp — brand green, regenerated in OKLCH on the system's own
+     lightness steps. -500 is the brand colour as sampled from the logo. */
+  --color-accent-100: #eaf6ea;
+  --color-accent-200: #cfe9cf;
+  --color-accent-300: #a3d6a3;
+  --color-accent-400: #4db54d;
+  --color-accent-500: #009800;
+  --color-accent-600: #007c00;
+  --color-accent-700: #006200;
+  --color-accent-800: #004a00;
+  --color-accent-900: #033303;
+
+  --color-accent: var(--color-accent-500);
+
+  /* Brand purple. 10.06:1 on the ground — the only surface where body-size
+     type may sit on a full accent field. */
+  --brand-purple: #580098;
+  --brand-purple-700: #47007a;
+
+  --font-heading-weight: 800;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-ink: var(--color-text);
+  --color-divider: var(--color-divider);
+
+  --color-accent: var(--color-accent-500);
+  --color-accent-100: var(--color-accent-100);
+  --color-accent-200: var(--color-accent-200);
+  --color-accent-300: var(--color-accent-300);
+  --color-accent-400: var(--color-accent-400);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-600: var(--color-accent-600);
+  --color-accent-700: var(--color-accent-700);
+  --color-accent-800: var(--color-accent-800);
+  --color-accent-900: var(--color-accent-900);
+
+  --color-purple: var(--brand-purple);
+  --color-purple-700: var(--brand-purple-700);
+
+  --color-n100: var(--color-neutral-100);
+  --color-n200: var(--color-neutral-200);
+  --color-n300: var(--color-neutral-300);
+  --color-n400: var(--color-neutral-400);
+  --color-n500: var(--color-neutral-500);
+  --color-n600: var(--color-neutral-600);
+  --color-n700: var(--color-neutral-700);
+  --color-n800: var(--color-neutral-800);
+  --color-n900: var(--color-neutral-900);
+
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
+
+  --radius-none: 0px;
+}
+
+@layer base {
+  /* ── Base ────────────────────────────────────────────────────────────────── */
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-archivo), system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: var(--font-heading-weight);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--space-2);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: clamp(32px, 6.2vw, 42px);
+  }
+  h2 {
+    font-size: clamp(26px, 4.6vw, 32px);
+  }
+  h3 {
+    font-size: clamp(21px, 3.4vw, 25px);
+  }
+  h4 {
+    font-size: 20px;
+  }
+  h5 {
+    font-size: 16px;
+  }
+  h6 {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.3;
+  }
+
+  p {
+    margin: 0 0 var(--space-3);
+  }
+  img {
+    display: block;
+    max-width: 100%;
+  }
+  figure {
+    margin: 0;
+  }
+
+  :focus {
+    outline: none;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-700);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent-500) 30%, transparent);
+  }
+
+  /* Inside the purple closing banner the green ring is near-invisible, so the
+     ring switches to the ground colour there. */
+  .on-purple :focus-visible {
+    outline-color: var(--color-bg);
+  }
+
+  /* Zero radius everywhere, defensively — no component may round a corner. */
+  * {
+    border-radius: 0 !important;
+  }
+}
+
+@layer components {
+  /* ── Display tier ────────────────────────────────────────────────────────── */
+  /* Numerals sit well above h1. Flush left, Archivo 800, tight. */
+
+  .display {
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-size: clamp(44px, 9vw, 72px);
+  }
+
+  .display-lg {
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    font-size: clamp(34px, 7vw, 56px);
+  }
+
+  .numeral {
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-size: 34px;
+    color: var(--color-accent-700);
+  }
+
+  .kicker {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .text-muted {
+    color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  }
+
+  /* ── Rules ───────────────────────────────────────────────────────────────── */
+
+  .rule {
+    height: 2px;
+    border: 0;
+    margin: 0;
+    background: var(--color-divider);
+  }
+
+  .rule-t {
+    border-top: 2px solid var(--color-divider);
+  }
+  .rule-b {
+    border-bottom: 2px solid var(--color-divider);
+  }
+  .rule-l {
+    border-left: 2px solid var(--color-divider);
+  }
+
+  /* ── Buttons ─────────────────────────────────────────────────────────────── */
+  /* Flush left always: a button wider than its label starts the text at the left
+     padding edge. Never centre a button label. */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    padding: 13px 20px;
+    border: 2px solid transparent;
+    background: transparent;
+    color: var(--color-text);
+    min-height: 44px;
+    transition: background-color 140ms ease-out, color 140ms ease-out,
+      border-color 140ms ease-out;
+  }
+
+  /* Fills with accent-700, not accent-500: a 14px light label on #009800 is
+     3.42:1 and fails AA. On #006200 it is 6.9:1. */
+  .btn-primary {
+    background: var(--color-accent-700);
+    color: var(--color-bg);
+    border-color: var(--color-accent-700);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-800);
+    border-color: var(--color-accent-800);
+  }
+  .btn-primary:active {
+    background: var(--color-accent-900);
+    border-color: var(--color-accent-900);
+  }
+
+  .btn-secondary {
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+  .btn-secondary:hover {
+    background: var(--color-neutral-200);
+  }
+  .btn-secondary:active {
+    background: var(--color-neutral-300);
+  }
+
+  .btn-ghost {
+    padding-inline: 0;
+    color: var(--color-accent-700);
+  }
+  .btn-ghost:hover {
+    color: var(--color-accent-800);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* On the purple field the button inverts to the ground colour. */
+  .btn-on-purple {
+    background: var(--color-bg);
+    color: var(--brand-purple);
+    border-color: var(--color-bg);
+  }
+  .btn-on-purple:hover {
+    background: var(--color-accent-100);
+    border-color: var(--color-accent-100);
+  }
+
+  /* ── Fields ──────────────────────────────────────────────────────────────── */
+
+  .field {
+    display: block;
+    margin-bottom: var(--space-6);
+  }
+
+  .field > label,
+  .field > .label {
+    display: block;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+
+  .input {
+    display: block;
+    width: 100%;
+    font: inherit;
+    font-size: 15px;
+    padding: 11px 12px;
+    min-height: 44px;
+    color: var(--color-text);
+    background: var(--color-bg);
+    border: 2px solid var(--color-neutral-400);
+    transition: border-color 140ms ease-out;
+  }
+  .input:hover {
+    border-color: var(--color-neutral-600);
+  }
+  .input:focus {
+    border-color: var(--color-accent-700);
+  }
+  .input[aria-invalid="true"] {
+    border-color: var(--color-accent-700);
+    background: var(--color-accent-100);
+  }
+  textarea.input {
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .field-hint {
+    font-size: 13px;
+    margin-top: var(--space-2);
+    color: color-mix(in srgb, var(--color-text) 72%, transparent);
+  }
+
+  .field-error {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: var(--space-2);
+    color: var(--color-accent-700);
+  }
+
+  /* ── Tags / segmented control ────────────────────────────────────────────── */
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 9px 12px;
+    min-height: 38px;
+    border: 2px solid var(--color-neutral-400);
+    background: var(--color-bg);
+    color: var(--color-text);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 140ms ease-out, border-color 140ms ease-out;
+  }
+  .tag:hover {
+    background: var(--color-accent-100);
+    border-color: var(--color-accent-400);
+  }
+  .tag[aria-pressed="true"],
+  .tag[data-active="true"] {
+    background: var(--color-accent-700);
+    border-color: var(--color-accent-700);
+    color: var(--color-bg);
+  }
+
+  .seg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 2px solid var(--color-divider);
+  }
+  .seg-opt {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 14px;
+    min-height: 44px;
+    border: 0;
+    border-right: 2px solid var(--color-divider);
+    background: transparent;
+    color: var(--color-text);
+    cursor: pointer;
+    text-align: left;
+  }
+  .seg-opt:last-child {
+    border-right: 0;
+  }
+  .seg-opt:hover {
+    background: var(--color-accent-100);
+  }
+  .seg-opt[aria-checked="true"] {
+    background: var(--color-accent-700);
+    color: var(--color-bg);
+  }
+
+  /* ── Table ───────────────────────────────────────────────────────────────── */
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+  }
+  .table th,
+  .table td {
+    text-align: left;
+    padding: 13px 0;
+    border-bottom: 2px solid var(--color-divider);
+    vertical-align: top;
+  }
+  .table th {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-right: var(--space-6);
+    width: 1%;
+  }
+  .table td {
+    font-variant-numeric: tabular-nums;
+    word-break: break-word;
+  }
+
+  /* ── Ruled grid ──────────────────────────────────────────────────────────── */
+  /*
+     The 2px rules between cells are drawn by the grid gap showing through, not by
+     per-cell borders with nth-child maths. This means the rules stay correct at
+     every column count the grid collapses through — 4 → 2 → 1 — with no empty
+     ruled cell at intermediate widths, and no rule left dangling on a stacked
+     column. Column counts are set explicitly by the caller, never auto-fit.
+  */
+
+  .ruled {
+    display: grid;
+    gap: 2px;
+    background: var(--color-divider);
+    border-top: 2px solid var(--color-divider);
+    border-bottom: 2px solid var(--color-divider);
+  }
+
+  .ruled > * {
+    background: var(--color-bg);
+  }
+
+  .ruled-surface > * {
+    background: var(--color-surface);
+  }
+
+  /* ── Motion ──────────────────────────────────────────────────────────────── */
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
