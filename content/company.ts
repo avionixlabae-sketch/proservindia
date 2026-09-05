@@ -44,7 +44,7 @@ export const contact = {
     state: "Haryana",
     country: "India",
   },
-  phones: ["+91 73735 20007", "+91 99995 56525"],
+  phones: ["+91 99995 56525", "+91 73735 20007"],
   emails: ["Sales@proservindia.in", "Ajaypal@proservindia.in"],
   /**
    * Published on /privacy as the contact for data requests, kept separate from
