@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { documentTrail, caseStudies, vendorPack } from "@/content/documents";
+import {
+  documentTrail,
+  internalRecords,
+  caseStudies,
+  vendorPack,
+} from "@/content/documents";
 import { sectorBySlug } from "@/content/sectors";
 import { company } from "@/content/company";
 import { Container, Kicker, Section } from "@/components/primitives";
@@ -10,7 +15,7 @@ import { ClosingBanner } from "@/components/blocks";
 export const metadata: Metadata = {
   title: "What you receive — the document trail on every order",
   description:
-    "Quotation, proforma, inspection record, batch and serial traceability, BIS and BEE declarations, GST invoice, e-way bill and OEM warranty letter. The paperwork an ISO 9001:2015 certified supplier produces against a purchase order.",
+    "Written quotation, proforma, OEM datasheet, batch and serial traceability, BIS and BEE declarations, GST invoice with warranty pass-through, e-way bill and delivery challan — plus the ISO 9001:2015 inspection and non-conformance records Proserv keeps and will produce on request.",
   alternates: { canonical: "/what-you-receive" },
 };
 
@@ -40,9 +45,10 @@ export default function WhatYouReceivePage() {
             </h1>
             <p className="mt-5 max-w-[64ch] text-[17px] leading-[1.5]">
               A documented supply chain is the difference between a trader and a
-              vendor you can put on a purchase order. Below is the paperwork an{" "}
-              {company.isoCertification.standard} certified supplier produces
-              against an order, in the sequence you receive it.
+              vendor you can put on a purchase order. Below is the paperwork you
+              receive against an order, in the sequence you receive it — and
+              below that, the {company.isoCertification.standard} records we keep
+              behind it and will produce on request.
             </p>
           </div>
         </Container>
@@ -102,6 +108,38 @@ export default function WhatYouReceivePage() {
           </div>
         </Section>
       ))}
+
+      {/* What is kept, not sent. The distinction is the page's credibility. */}
+      <Section>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr] lg:gap-12">
+          <div>
+            <Kicker className="text-accent-700">And what we keep</Kicker>
+            <h2 className="mt-4 text-[25px]">
+              Records, not deliverables.
+            </h2>
+            <p className="mt-4 mb-0 text-[15px] leading-[1.55] text-muted">
+              These sit behind the documents above. We do not send them with
+              every consignment — but if you are auditing us as a vendor, or
+              want the record for a specific delivery, ask and you will get it.
+            </p>
+          </div>
+          <div className="lg:border-l-2 lg:border-divider lg:pl-12">
+            <dl className="m-0">
+              {internalRecords.map((r) => (
+                <div
+                  key={r.name}
+                  className="border-b-2 border-divider py-4 first:border-t-2"
+                >
+                  <dt className="text-[16px] font-extrabold">{r.name}</dt>
+                  <dd className="m-0 mt-2 max-w-[64ch] text-[15px] leading-[1.5] text-muted">
+                    {r.note}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </Section>
 
       {/* Vendor pack */}
       <Section>

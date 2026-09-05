@@ -138,9 +138,8 @@ needs.
 - [ ] `privacy@proservindia.in` exists and someone reads it — the address is
       published on `/privacy`
 - [ ] `/privacy` read by whoever handles your contracts (see `NOTES.md` item 3)
-- [ ] The document list on `/what-you-receive` matches what Proserv actually
-      issues (`NOTES.md` item 5) — that page's whole value is that every line is
-      checkable
+- [x] The document list on `/what-you-receive` matches what Proserv actually
+      issues — confirmed 5 September 2026 (`NOTES.md` item 5)
 - [ ] Vertical 08's solar lines reconciled with the company profile PDF
       (`NOTES.md` item 4) — the two documents currently disagree
 - [ ] `https://proservindia.in/sitemap.xml` returns 14 URLs with the right

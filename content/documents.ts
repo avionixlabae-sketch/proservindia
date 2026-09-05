@@ -1,16 +1,25 @@
 /**
- * The document trail — content for `/what-you-receive`.
+ * Content for `/what-you-receive`.
  *
  * This page replaces the "Capabilities in practice" page in the original
- * handoff. See NOTES.md item 5. The reason: the company profile contains no
- * case studies, and a page of illustrative "a warehouse operator typically
- * consolidates…" scenarios reads to a procurement manager as an absence of
- * projects. Every line below is instead something Proserv actually produces
- * against an order, derived from the profile's own quality-management and
- * regulatory commitments. Nothing here is claimed history.
+ * handoff. See NOTES.md item 5.
  *
- * ⚠️ Each stage's documents must be confirmed against what Proserv actually
- * issues before launch — see NOTES.md item 5.
+ * Split into two lists on purpose, and the split is the point:
+ *
+ *   documentTrail  — documents the buyer actually receives.
+ *   internalRecords — records Proserv keeps as ISO 9001:2015 evidence and will
+ *                     show for a specific consignment on request.
+ *
+ * The first draft put all of it under "what you receive", which overclaimed:
+ * an inspection record and a non-conformance report are kept, not posted to the
+ * customer. Separating them is more credible than merging them, because it
+ * demonstrates the quality system without pretending the buyer gets a copy of
+ * everything in it.
+ *
+ * Every line below was confirmed with the client on 5 September 2026 as
+ * something Proserv genuinely produces today. Nothing here is aspirational.
+ * If a line stops being true, remove it — the page's entire value is that a
+ * procurement manager can check it.
  */
 
 export interface DocumentStage {
@@ -20,6 +29,7 @@ export interface DocumentStage {
   documents: { name: string; note: string }[];
 }
 
+/** What the buyer receives. */
 export const documentTrail: DocumentStage[] = [
   {
     no: "01",
@@ -28,64 +38,41 @@ export const documentTrail: DocumentStage[] = [
     documents: [
       {
         name: "Written quotation",
-        note: "Line-item pricing against your specification, with the lead time stated in writing.",
+        note: "Line-item pricing against your specification, with the lead time stated in writing and not estimated verbally.",
       },
       {
         name: "Proforma invoice",
-        note: "Raised against your GSTIN and billing entity, for release of the purchase order.",
+        note: "Raised against your GSTIN and billing entity, so the purchase order can be released without a second round of paperwork.",
       },
       {
-        name: "Technical datasheet",
-        note: "The OEM's own specification for the offered make and model, so the offer can be checked against the tender or drawing.",
+        name: "OEM technical datasheet",
+        note: "The manufacturer's own specification for the make and model offered, so the quotation can be checked against your tender, drawing or bill of quantities.",
       },
     ],
   },
   {
     no: "02",
-    stage: "At order",
-    when: "On receipt of your purchase order",
+    stage: "On dispatch",
+    when: "After goods inward inspection",
     documents: [
       {
-        name: "Order acknowledgement",
-        note: "Confirms accepted scope, quantity, phasing and the committed delivery window.",
+        name: "Batch and serial record",
+        note: "Traceable batch or serial numbers captured against the dispatch, so a warranty claim can be tied to a specific unit rather than to an order.",
       },
       {
-        name: "Vendor registration pack",
-        note: "PAN, GST certificate, UDYAM registration, ISO 9001:2015 certificate, IEC, LEI, bank details and a cancelled cheque — supplied as one file for your vendor master.",
+        name: "BIS / ISI and BEE declarations",
+        note: "Certification marks and declared energy ratings, where the product category requires them.",
       },
     ],
   },
   {
     no: "03",
-    stage: "Before dispatch",
-    when: "After goods inward inspection",
-    documents: [
-      {
-        name: "Goods inward inspection record",
-        note: "The consignment checked against recorded criteria. The same criteria apply to a cement consignment and to a server rack.",
-      },
-      {
-        name: "Batch and serial record",
-        note: "Traceable batch or serial numbers captured against the dispatch, so a warranty claim can be tied to a specific unit.",
-      },
-      {
-        name: "BIS / ISI or BEE declaration",
-        note: "Certification marks and declared energy ratings where the product category requires them.",
-      },
-      {
-        name: "Non-conformance report",
-        note: "Raised where an inspection fails, with the corrective action recorded and closed before the consignment moves.",
-      },
-    ],
-  },
-  {
-    no: "04",
-    stage: "At delivery",
+    stage: "On delivery",
     when: "On arrival at your site",
     documents: [
       {
         name: "Tax invoice",
-        note: "GST-compliant, matched to the proforma and the purchase order.",
+        note: "GST-compliant, matched to the proforma and the purchase order, with the OEM warranty passed through to you in writing on the invoice itself.",
       },
       {
         name: "E-way bill",
@@ -93,36 +80,43 @@ export const documentTrail: DocumentStage[] = [
       },
       {
         name: "Packing list and delivery challan",
-        note: "Itemised against the order so receiving can check the consignment without opening the order file.",
-      },
-      {
-        name: "OEM warranty letter",
-        note: "The manufacturer's warranty passed through to you in writing, not summarised on the invoice.",
-      },
-    ],
-  },
-  {
-    no: "05",
-    stage: "After delivery",
-    when: "For the life of the warranty",
-    documents: [
-      {
-        name: "Complaint log entry",
-        note: "Any issue raised is logged and tracked to closure, not handled by conversation.",
-      },
-      {
-        name: "Corrective action record",
-        note: "Where a supply failure recurs, the supplier is re-evaluated against the approved vendor list.",
-      },
-      {
-        name: "Performance against measured objectives",
-        note: "On-time delivery, quotation turnaround and order accuracy are measured objectives under ISO 9001:2015 and can be reported against your account.",
+        note: "Itemised against the order, so receiving can check the consignment without opening the order file.",
       },
     ],
   },
 ];
 
-/** The vendor registration pack — the secondary path on /contact. */
+/**
+ * What Proserv keeps. Available for a specific consignment on request.
+ *
+ * These are ISO 9001:2015 records, not customer deliverables. Stated as such —
+ * a buyer auditing a vendor wants to know the records exist and can be produced,
+ * which is a different and more defensible claim than saying they are sent.
+ */
+export const internalRecords = [
+  {
+    name: "Goods inward inspection record",
+    note: "Every consignment checked against recorded criteria before it moves. The same criteria apply to a cement consignment and to a server rack.",
+  },
+  {
+    name: "Non-conformance report and corrective action",
+    note: "Raised where an inspection fails, with the corrective action recorded and closed before the consignment is released.",
+  },
+  {
+    name: "Approved vendor list and supplier re-evaluation",
+    note: "Suppliers are evaluated before approval and re-evaluated periodically. A supplier that fails repeatedly comes off the list.",
+  },
+  {
+    name: "Customer complaint log",
+    note: "Any issue you raise is logged and tracked to closure, rather than handled by conversation and forgotten.",
+  },
+  {
+    name: "Measured objectives and management review",
+    note: "On-time delivery, quotation turnaround and order accuracy are measured across the business and reviewed annually under ISO 9001:2015.",
+  },
+];
+
+/** The vendor registration pack — also the secondary path on /contact. */
 export const vendorPack = {
   title: "Vendor registration pack",
   body: "Most buyers need Proserv on their vendor master before a purchase order can be raised. The pack contains everything a finance or procurement team asks for, in one file.",
@@ -142,10 +136,9 @@ export const vendorPack = {
 };
 
 /**
- * Real, client-approved case studies drop in here and render in place of
- * nothing — the page is already structured for them. Leave empty until the
- * client approves sector, scope and outcome. No client names required.
- * See NOTES.md item 5.
+ * Real, client-approved case studies drop in here and render above the document
+ * trail with no rebuild. Leave empty until the client approves sector, scope and
+ * outcome. No client names required. See NOTES.md item 5.
  */
 export interface CaseStudy {
   sectorSlug: string;

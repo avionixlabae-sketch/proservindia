@@ -144,9 +144,34 @@ regulatory commitments; none of it is claimed history. It is also the thing a
 governed vendor can produce and an ungoverned one cannot, which is the argument
 the page needs to make.
 
-**Confirm the document list against what Proserv actually issues** before launch
-(`content/documents.ts` → `documentTrail`). Anything not genuinely produced today
-must come out — the page's whole value is that every line is checkable.
+**Document list confirmed with the client, 5 September 2026.** Every line on the
+page is something Proserv produces today. Three changes came out of that pass:
+
+- **The page is now two lists, not one.** The first draft filed inspection
+  records, non-conformance reports and corrective actions under "what you
+  receive", which overclaimed — those are kept as ISO 9001:2015 evidence, not
+  posted to the customer. They now sit under *Records, not deliverables*, framed
+  as available for a specific consignment on request. This reads as more
+  credible, not less: it shows the quality system exists without pretending the
+  buyer gets a copy of everything in it.
+- **Removed: the formal order acknowledgement and the standalone OEM warranty
+  letter.** Neither is issued. Warranty pass-through is stated on the tax
+  invoice, which is what the company profile actually claims.
+- **Reworded: measured objectives.** On-time delivery, quotation turnaround and
+  order accuracy are measured across the business and reviewed annually — not
+  reported per client account. The earlier wording promised account-level KPI
+  reporting that does not exist.
+
+Two things worth revisiting later, both genuine differentiators if they become
+true:
+
+- **Sharing the goods-inward inspection record with the consignment.** Very few
+  suppliers at this size do it. Currently on request only.
+- **Per-account performance reporting.** A buyer running a vendor scorecard
+  would value it, and ISO 9001:2015 already requires the underlying measurement.
+
+If any line stops being true, take it out. The page's entire value is that a
+procurement manager can check it.
 
 Real case studies drop into `caseStudies` in the same file and render above the
 trail with no rebuild. Sector, multi-vertical scope and outcome are enough; no
