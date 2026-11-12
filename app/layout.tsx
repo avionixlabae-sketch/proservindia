@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import UtilityBar from "@/components/UtilityBar";
 import { company } from "@/content/company";
 import { JsonLd, organizationJsonLd, SITE_URL } from "@/lib/site";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 /**
  * Archivo, self-hosted.
@@ -77,6 +78,7 @@ export default function RootLayout({
         <main id="main">{children}</main>
         <Footer />
         <JsonLd data={organizationJsonLd} />
+        <SpeedInsights />
       </body>
     </html>
   );
